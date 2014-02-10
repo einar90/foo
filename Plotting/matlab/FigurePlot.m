@@ -1,6 +1,7 @@
 classdef FigurePlot < hgsetget
-  %FIGUREPLOT Convenience class for creating, displaying and saving plots.
-  %   Detailed explanation goes here
+  %FIGUREPLOT Convenience class for creating and saving plots.
+  %   Author: Einar Baumann
+  %   This is a convenience class for creating and saving plots.
   
   properties (SetAccess = private, GetAccess = public)
     FigHandle   % Handle to the figure
@@ -18,6 +19,7 @@ classdef FigurePlot < hgsetget
     XVec        % The x-vector to be plotted
     YVecs       % List to hold the y-vectors to be plotted
     Axis        % The plot axis'
+    LegendLoc   % The position of the legend
   end
   
   properties (SetAccess = public, GetAccess = public)
@@ -51,6 +53,7 @@ classdef FigurePlot < hgsetget
       obj.LineWidth = 1.5;
       obj.FontSize = 12;
       obj.Axis = [];
+      obj.LegendLoc = 'Best';
     end
     
     % Adding lines to be plotted
@@ -68,6 +71,22 @@ classdef FigurePlot < hgsetget
     % Set-method for axis'
     function SetAxis(obj, XMin, XMax, YMin, YMax)
       obj.Axis = [XMin XMax YMin YMax];
+    end
+    
+    % Function for setting legend location
+    function SetLegendLoc(obj, Loc)
+      set(obj, 'LegendLoc', Loc);
+    end
+    
+    % Set method for legend location
+    function set.LegendLoc(obj, Loc)
+      try
+        obj.LegendLoc = Loc;
+        legend('location', obj.LegendLoc);
+      catch
+        disp('Invalid legend location. Aborting');
+        return
+      end
     end
     
     % Set-method for Names
@@ -164,7 +183,7 @@ classdef FigurePlot < hgsetget
       for i = 1:NumLines
         plot(obj.XVec, obj.YVecs(i,:), obj.Colors(i));
       end
-      legend(obj.Names(2:NumLines+1,:));
+      legend(obj.Names(2:NumLines+1,:), 'location', obj.LegendLoc);
       
       
       FileName = [obj.FigTitle obj.FileEnding];

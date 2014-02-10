@@ -19,12 +19,16 @@ Fig.AddYVec(YVec3, 'Vector3', 'k');  % Space not included for var. len. check
 Fig.PlotLabels('title2','xx','yy');
 Fig.SetAxis(0, 15, -10, 10);
 
+% Setting legend position
+Fig.SetLegendLoc('North');
+
 % Saving plot
 Fig.FileFormat('png');
 Fig.SetResolution(100);
 Fig.SetSize(800, 500);
 Fig.SavePlot();
 
+% Figure 2 (minimal)
 Fig2 = FigurePlot('TestFigure2', XVec);
 Fig2.AddYVec(YVec1, 'Vector 1', 'g');
 Fig2.SavePlot();
